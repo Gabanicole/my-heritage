@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Register</title>
+  <link rel="stylesheet" href="./css/login.css">
+   <!-- Font Awesome Cdn Link -->
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
+</head>
+<body>
+  <div class="wrapper">
+    <h1>Hello</h1>
+    <p>Welcome <br> To Heritage site!</p>
+    <form>
+      <input type="text" id="first-name" placeholder="First Name">
+      <input type="text" id="last-name" placeholder="Last Name">
+      <input type="text" id="email" placeholder="Enter Email">
+      <input type="password" id="password" placeholder="Password">
+      <!-- <p class="recover">
+        <a href="#">Recover Password</a>
+      </p> -->
+    </form>
+    <button onclick="register()">Register</button>
+    <p class="or">
+      ----- or continue with -----
+    </p>
+    <div class="icons">
+      <i class="fab fa-google"></i>
+      <i class="fab fa-facebook"></i>
+    </div>
+    <div class="not-member">
+      Already a member? <a href="login.html">Login</a>
+    </div>
+  </div>
+
+  <script>
+    function register() {
+      var firstName = document.getElementById("first-name").value;
+      var lastName = document.getElementById("last-name").value;
+      var email = document.getElementById("email").value;
+      var password = document.getElementById("password").value;
+
+      if (firstName === '' || lastName === '' || email === '' || password === '') {
+        alert("Please fill in all the fields.");
+      } else {
+        // Save registration data to user data dashboard
+        var userData = {
+          firstName: firstName,
+          lastName: lastName,
+          email: email,
+          password: password
+        };
+
+        // Here, you can perform any necessary logic to save userData to the user's data dashboard
+
+        alert("Registration successful!");
+
+        // Redirect to login page
+        window.location.href = "login.html";
+      }
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+ <meta charset="UTF-8">
+ <meta http-equiv="X-UA-Compatible" content="IE=edge">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+ <link rel="stylesheet" href="./css/user.css">
+ <title>User</title>
+</head>
+<body>
+  <div class="header">
+   <h5>User</h5>
+  </div>
+  <div class="upper-btn-box">
+   <div class="left-box">
+    <button id="add-btn"><i class="fa fa-plus"></i> &nbsp;Add user</button>
+    <button><i class="fa fa-eraser"></i> &nbsp; Clear</button>
+   </div>
+   <div class="right-box">
+    <i class="fa fa-search"></i>
+    <input type="text" id="empid" placeholder="Enter user id">
+    <button style="background-color: #EE534F;">search</button>
+   </div>
+  </div>
+
+  <div class="table-box">
+   <table id="table-data" class="table-data">
+    <tr>
+     <th>Sr No</th>
+     <th>Profile</th>
+     <th>id</th>
+     <th>Name</th>
+     <th>Last Name</th>
+     <th>Email</th>
+     <th>Role</th>
+     <th>Action</th>
+    </tr>
+   </table>
+  </div>
+
+  <div class="modal">
+   <i class="fa fa-times-circle close-icon"></i>
+   <div class="left-modal">
+    <div class="img-box">
+     <img src="./images/avatar.jpg" width="150px" height="150px" alt="">
+     <i class="fa fa-plus"></i>
+     <input type="file">
+    </div>
+   </div>
+   <div class="right-modal">
+    <form id="register-form">
+      <div class="input-box">
+         <label for="id">id</label>
+         <input type="text" id="id">
+      </div>
+      <div class="input-box">
+        <label for="name">Name</label>
+        <input type="text" id="name">
+      </div>
+      <div class="input-box">
+       <label for="l-name">Last name</label>
+       <input type="text" id="l-name">
+      </div>
+      <div class="input-box">
+         <label for="email">Email</label>
+         <input type="text" id="email">
+       </div>
+      <div class="input-box">
+       <label for="role">Role</label>
+       <input type="text" id="role">
+      </div>
+      <div class="input-box">
+       <button id="register-btn">Register</button>
+       <button disabled="disabled" style="background-color: #EE534F;">Update</button>
+      </div>
+    </form>
+   </div>
+  </div>
+
+  <script>
+   var addBtn = document.getElementById("add-btn");
+   var modal = document.querySelector(".modal");
+   var closeBtn = document.querySelector(".close-icon");
+
+   // All global variables
+   var userData = JSON.parse(localStorage.getItem("userData")) || [];
+   var registerBtn = document.querySelector("#register-btn");
+   var idEl = document.getElementById("id");
+   var nameEl = document.getElementById("name");
+   var l_nameEl = document.getElementById("l-name");
+   var emailEl = document.getElementById("email");
+   var roleEl = document.getElementById("role");
+   var registerForm = document.querySelector('#register-form');
+   var imgUrl;
+
+   addBtn.onclick = function() {
+     modal.style.display = "flex";
+   };
+
+   closeBtn.addEventListener("click", function() {
+     modal.style.display = "none";
+   });
+
+   registerBtn.onclick = function (e) {
+  e.preventDefault();
+  registrationData();
+  registerForm.reset();
+  closeBtn.click();
+};
+
+
+   if (localStorage.getItem("userData") !== null) {
+     userData = JSON.parse(localStorage.getItem("userData"));
+   }
+
+   function registrationData() {
+     userData.push({
+       id: idEl.value,
+       name: nameEl.value,
+       l_name: l_nameEl.value,
+       email: emailEl.value,
+       role: roleEl.value,
+       profilePic: imgUrl == undefined ? "img/avatar.jpg" : imgUrl
+     });
+
+      // Clear the table
+  var tableData = document.getElementById("table-data");
+  tableData.innerHTML = "";
+
+     var userString = JSON.stringify(userData);
+     localStorage.setItem("userData", userString);
+   }
+
+   // Function to populate table data from local storage
+  function populateTableData() {
+  var tableData = document.getElementById("table-data");
+
+  for (var i = 0; i < userData.length; i++) {
+    var data = userData[i];
+    var row = document.createElement("tr");
+
+    row.innerHTML += `
+      <td>${i + 1}</td>
+      <td>${data.profilePic}</td>
+      <td>${data.id}</td>
+      <td>${data.name}</td>
+      <td>${data.l_name}</td>
+      <td>${data.email}</td>
+      <td>${data.role}</td>
+      <td>
+        <button onclick="viewUser(${i})"><i class="fa fa-eye"></i></button>
+        <button style="background-color: #EE534F;" onclick="deleteUser(${i})"><i class="fa fa-trash"></i></button>
+      </td>
+    `;
+
+    tableData.appendChild(row);
+  }
+}
+// Function to view user information
+function viewUser(index) {
+  var user = userData[index];
+  // Perform the desired action to view the user information (e.g., display in a modal)
+  console.log(user);
+}
+
+// Function to delete a user
+function deleteUser(index) {
+  userData.splice(index, 1);
+  var userString = JSON.stringify(userData);
+  localStorage.setItem("userData", userString);
+
+  // Clear the table
+  var tableData = document.getElementById("table-data");
+  tableData.innerHTML = "";
+
+  // Repopulate the table with updated data
+  populateTableData();
+}
+   populateTableData();
+  </script>
+</body>
+</html>
