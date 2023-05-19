@@ -18,7 +18,7 @@
         <a href="#">Recover Password</a>
       </p>
     </form>
-    <button onclick="login()">Sign in</button>
+    <button id="loginButton">Sign in</button>
     <p class="or">
       ----- or continue with -----
     </p>
@@ -32,22 +32,48 @@
   </div>
 
   <script>
-    function login() {
-      var email = document.getElementById("emailInput").value;
-      var password = document.getElementById("passwordInput").value;
+    const loginButton = document.getElementById("loginButton");
+    const emailInput = document.getElementById("emailInput");
+    const passwordInput = document.getElementById("passwordInput");
+
+    loginButton.addEventListener("click", (event) => {
+      event.preventDefault();
+
+      const email = emailInput.value;
+      const password = passwordInput.value;
 
       // Check if the email or password is empty
-      if (email.trim() === "" || password.trim() === "") {
+      if (!email.trim() || !password.trim()) {
         alert("Please enter both email and password.");
-        return; // Stop further execution
+        return;
       }
 
-      // Perform the login verification by sending a request to the server
-      // You need to implement the server-side logic to verify the login credentials and return a response
+      const loginData = {
+        email: email,
+        password: password,
+      };
 
-      // Assuming the verification is successful, redirect to the index.html page
-      window.location.href = "index.html";
-    }
+      const url = "https://umuco.onrender.com/api/users/register-user";
+      fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(loginData),
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          console.log(data);
+
+          // Redirect to the blog page if login is successful
+          if (data.success) {
+            window.location.href = ""; // Specify the URL to redirect to
+          }
+        })
+        .catch((error) => {
+          console.error("Error:", error);
+        });
+    });
   </script>
 </body>
 </html>
