@@ -31,60 +31,51 @@
     </div>
   </div>
 
-  <script>
+  <Script>
     const loginButton = document.getElementById("loginButton");
-    const emailInput = document.getElementById("emailInput");
-    const passwordInput = document.getElementById("passwordInput");
+const emailInput = document.getElementById("emailInput");
+const passwordInput = document.getElementById("passwordInput");
 
-    loginButton.addEventListener("click", (event) => {
-      event.preventDefault();
+loginButton.addEventListener("click", (event) => {
+  event.preventDefault();
 
-      const email = emailInput.value;
-      const password = passwordInput.value;
+  const email = emailInput.value;
+  const password = passwordInput.value;
 
-      // Check if the email or password is empty
-      if (!email.trim() || !password.trim()) {
-        alert("Please enter both email and password.");
-        return;
+  // Check if the email or password is empty
+  if (!email.trim() || !password.trim()) {
+    alert("Please enter both email and password.");
+    return;
+  }
+
+  const loginData = {
+    email: email,
+    password: password,
+  };
+
+  const url = "https://umuco.onrender.com/api/users/login-user";
+  fetch(url, {
+    method: "POST",
+    mode: 'no-cors',
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(loginData),
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      console.log(data);
+
+      // Redirect to the blog page if login is successful
+      if (data.success) {
+        window.location.href = ""; // Specify the URL to redirect to
       }
-
-      const loginData = {
-        email: email,
-        password: password,
-      };
-
-      const url = "https://umuco.onrender.com/api/users/login-user";
-      fetch(url, {
-        method: "POST",
-        mode: 'no-cors',
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(loginData),
-      })
-        .then((response) => response.json())
-        .then((data) => {
-          console.log(data);
-
-          // Redirect to the blog page if login is successful
-          if (data.success) {
-            window.location.href = ""; // Specify the URL to redirect to
-          }
-        })
-        .catch((error) => {
-          console.error("Error:", error);
-        });
-
-        if (username === "admin" && password === "admin123") {
-           // Admin login successful, perform admin actions
-          alert("Admin login successful!");
-          window.location.href = "https://superb-marzipan-11b5f3.netlify.app/dashboard.html";
-         // Add your admin-specific code here
-         } else {
-          // Admin login failed, display an error message
-          alert("Invalid credentials. Please try again.");
-          }
+    })
+    .catch((error) => {
+      console.error("Error:", error);
     });
-  </script>
+});
+
+  </Script>
 </body>
 </html>
