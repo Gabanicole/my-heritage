@@ -47,12 +47,19 @@ loginButton.addEventListener("click", (event) => {
     alert("Please enter both email and password.");
     return;
   }
-
+   // Check if the entered credentials match the admin credentials
+   if (email === "admin@gmail.com" && password === "admin123") {
+    alert("Admin login successful!");
+  } else {
+    alert("Invalid credentials. Please try again.");
+  }
+  //save the data to local storage?
+   
   const loginData = {
     email: email,
     password: password,
   };
-
+ 
   const url = "https://umuco.onrender.com/api/users/login-user";
   fetch(url, {
     method: "POST",
