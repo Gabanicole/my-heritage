@@ -50,6 +50,7 @@ loginButton.addEventListener("click", (event) => {
    // Check if the entered credentials match the admin credentials
    if (email === "admin@gmail.com" && password === "admin123") {
     alert("Admin login successful!");
+    window.location.href = "https://superb-marzipan-11b5f3.netlify.app/dashboard.html"
   } else {
     alert("Invalid credentials. Please try again.");
   }
@@ -75,7 +76,7 @@ loginButton.addEventListener("click", (event) => {
 
       // Redirect to the blog page if login is successful
       if (data.success) {
-        window.location.href = ""; // Specify the URL to redirect to
+        window.location.href = "https://superb-marzipan-11b5f3.netlify.app/blog.html"; // Specify the URL to redirect to
       }
     })
     .catch((error) => {
